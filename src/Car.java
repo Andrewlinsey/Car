@@ -21,17 +21,17 @@ public class Car {
         return m_model;
     }
 
-    public double getFuelCapacity() {
-        return m_fuelcapacity;
-    }
+    //public double getFuelCapacity() {
+    //    return m_fuelcapacity;
+    //}
 
     public double getCurrentFuel() {
         return m_currentfuel;
     }
 
-    public double getMPG() {
-        return m_mpg;
-    }
+    //public double getMPG() {
+    //    return m_mpg;
+    // }
 
     
 
@@ -42,15 +42,19 @@ public class Car {
         else if(m_currentfuel > fuelcapacity) {
             m_currentfuel = fuelcapacity;
         }
-        fuelcapacity = m_fuelcapacity;
+        m_fuelcapacity = fuelcapacity;
     }
 
-    public void setCurrentFuel(double fuel) { /////////// may be more or less
-        if(fuel > m_fuelcapacity ) {
-            System.out.println("fuel cannot be negative or be greater than " + m_fuelcapacity);
-            return;
+    private void updateFuel(double fuel) { /////////// may be more or less
+        if(fuel + m_currentfuel > m_fuelcapacity ) {
+            System.out.println("fuel can't be greater than a total of " + m_fuelcapacity);
         }
-        fuel = m_currentfuel;
+        else if(fuel + m_currentfuel < 0) {
+            System.out.println("fuel is to low, increase the fuel to properaly run");
+        }
+        else {
+            m_currentfuel += fuel;
+        }
     }
 
     public void setMPG( double MPG) {
@@ -68,16 +72,39 @@ public class Car {
         }
         else if(fuelUsed > m_currentfuel) {
             double maxMiles = m_currentfuel/m_mpg;
-            (this).setCurrentFuel(0);
+            (this).updateFuel(0);
             System.out.println(m_make + m_model + " only drove " + maxMiles + " miles because There was not enough fuel");
         }
         else {
-            (this).setCurrentFuel(m_currentfuel - fuelUsed);
-            System.out.println(m_make + m_model + " drove " + miles + "miles");
+            (this).updateFuel(0 - fuelUsed);
+            System.out.println(m_make + " " + m_model + " drove " + miles + " miles");
         }
     }
     public void refuel(double fuel) {
-        (this).setCurrentFuel(m_currentfuel + fuel);
-        System.out.println(m_make + m_model + " refueled. Current fuel: " + fuel + "gallons" );
+        (this).updateFuel(fuel);
+        if(fuel + m_currentfuel > m_fuelcapacity ) {
+          
+        }
+        else if(fuel + m_currentfuel < 0) {
+           
+        }
+        else{
+            System.out.println(m_make + " " + m_model + " refueled. Current fuel: " + m_currentfuel + " gallons" );
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // extra stuff
+    public void printGallonsLeft() {
+        System.out.println((this).getMake() + " " + (this).getModel() + " has " + (this).getCurrentFuel() + " gallons left.");
     }
 }
